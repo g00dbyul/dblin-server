@@ -1,0 +1,107 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "API Title",
+        "version": "0.1"
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "user name",
+                        "default": "tester"
+                    },
+                    "email": {
+                        "type": "string"
+                    }
+                },
+                "required": ["name", "email"]
+            }
+        }
+    },
+    "paths": {
+        "/": {
+            "get": {
+                "tags": ["health check"],
+                "summary": "say hello",
+                "description": "just say hello",
+                "responses": {
+                    "200": {
+                        "description": "성공"
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "tags": ["user"],
+                "description": "get user info",
+                "summary": "get user",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "user id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "testQ",
+                        "description": "test query doc",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "post": {
+                "tags": ["user"],
+                "summary": "set user",
+                "description": "set user info",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,15 @@
+services:
+  maria:
+    image: mariadb:10
+    container_name: dblin_db
+    volumes:
+      - ./docker-init/rdb:/docker-entrypoint-initdb.d
+    environment:
+      LANG: C.UTF-8
+      MARIADB_DATABASE: 'dblin'
+      MARIADB_HOST: 'localhost'
+      MARIADB_USER: 'root'
+      MARIADB_ROOT_PASSWORD: 'root'
+      TZ: Asia/Seoul
+    ports:
+      - '3306:3306'
