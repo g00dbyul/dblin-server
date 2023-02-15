@@ -6,16 +6,20 @@ import {Board} from "./board.entity";
 export class BoardService {
     constructor(private readonly boardRepository: BoardRepository) {}
 
-    findAll() {
-        return 'get';
+    async findAll() {
+        return await this.boardRepository.findAll();
     }
 
     async findByUUID(uuid: string):Promise<Board|null> {
         return await this.boardRepository.findByUUID(uuid);
     }
 
-    async create(category: string, title: string, content: string): Promise<Board> {
-        return await this.boardRepository.create(category, title, content);
+    async findByCategory(category: string):Promise<Board|null> {
+        return await this.boardRepository.findByCategory(category);
+    }
+
+    async create(category: string, userDID: string, title: string, content: string): Promise<Board> {
+        return await this.boardRepository.create(category, userDID, title, content);
     }
 
     async deleteByUUID(uuid: string) {

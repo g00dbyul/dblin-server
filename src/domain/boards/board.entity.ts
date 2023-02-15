@@ -9,9 +9,12 @@ export class Board {
     category!: string;
 
     @Column({ type: 'varchar' })
-    title!: string;
+    userDID!: string;
 
     @Column({ type: 'varchar' })
+    title!: string;
+
+    @Column({ type: 'longtext' })
     content!: string;
 
     @CreateDateColumn()

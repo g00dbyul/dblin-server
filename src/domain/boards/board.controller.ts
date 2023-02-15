@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Patch, Post, Query} from "@nestjs/common";
 import {BoardService} from "./board.service";
 import {CreateBoardDTO} from "./create.board.dto";
 import {UpdateBoardDTO} from "./update.board.dto";
@@ -8,15 +8,30 @@ export class BoardController {
     constructor(private readonly boardService :BoardService) {}
 
     @Get()
-    findAll() {
-        return this.boardService.findAll();
+    async findAll() {
+        const result = await this.boardService.findAll();
+        if(result.length) {
+            return { result };
+        } else {
+            return { result: 'NotFound' };
+        }
     }
 
     @Get(':uuid')
     async findByUUID(@Param('uuid') uuid: string) {
         const result = await this.boardService.findByUUID(uuid);
         if(result) {
-            return result;
+            return { result };
+        } else {
+            return { result: 'NotFound' };
+        }
+    }
+
+    @Get()
+    async findByCategory(@Query('category') category: string) {
+        const result = await this.boardService.findByCategory(category);
+        if(result) {
+            return { result };
         } else {
             return { result: 'NotFound' };
         }
@@ -24,16 +39,19 @@ export class BoardController {
 
     @Post()
     async create(@Body() createBoardDTO: CreateBoardDTO) {
-        return await this.boardService.create(createBoardDTO.category, createBoardDTO.title, createBoardDTO.content);
+        const result = await this.boardService.create(createBoardDTO.category, createBoardDTO.userDID, createBoardDTO.title, createBoardDTO.content);
+        return { result };
     }
 
     @Delete(':uuid')
     async deleteByUUID(@Param('uuid') uuid: string) {
-        return await this.boardService.deleteByUUID(uuid);
+        const result = await this.boardService.deleteByUUID(uuid);
+        return { result };
     }
 
     @Patch(':uuid')
     async updateByUUID(@Param('uuid') uuid: string, @Body() updateBoardDTO: UpdateBoardDTO) {
-        return await this.boardService.updateByUUID(uuid, updateBoardDTO);
+        const result = await this.boardService.updateByUUID(uuid, updateBoardDTO);
+        return { result };
     }
 }

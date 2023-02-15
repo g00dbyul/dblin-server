@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { DataSourceOptions } from "typeorm";
 import { Board } from "../../domain/boards/board.entity";
+import {User} from "../../domain/user/user.model";
 
 
 @Injectable()
@@ -64,7 +65,7 @@ export class ServerConfigService {
             password: this.get('DB_PASSWORD'),
             database: this.get('DB_DATABASE'),
             synchronize: true,
-            entities: [Board]
+            entities: [Board, User]
         }
     }
 }
